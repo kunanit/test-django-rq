@@ -1,2 +1,2 @@
 web: gunicorn mysite.wsgi --log-file -
-worker: python manage.py rqworker default
+worker: python manage.py rqworker default --burst
