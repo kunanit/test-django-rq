@@ -1,16 +1,14 @@
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <script>
 $(document).ready(function(){
 	$("#myform").submit(function(event){
 		event.preventDefault();
-		$.post("/rqapp/myview/",$("#myform").serialize()).done(
-			function(jobid){
+		$.post("/rqapp/myview/",$("#myform").serialize()).done(function(jobid){
 				$('body').append('<p>'+jobid+'</p>');
 				checkstatus(jobid);
-				// when ready, go to success page
-				// window.location.href = '/rqapp/success/?jobid='+jobid;
+				
 		});
 	});
 
@@ -22,7 +20,10 @@ $(document).ready(function(){
 				// wait 5 sec before calling again
 				setTimeout(function(){checkstatus(jobid)},5000);
 			}
-			else {console.log('done');}
+			else {
+			// when ready, go to success page
+				window.location.href = '/rqapp/success/?jobid='+jobid;
+			}
 		});
 	}
 });
