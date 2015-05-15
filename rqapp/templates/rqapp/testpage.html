@@ -1,0 +1,43 @@
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+	$("#myform").submit(function(event){
+		event.preventDefault();
+		$.post("/rqapp/myview/",$("#myform").serialize()).done(
+			function(jobid){
+				$('body').append('<p>'+jobid+'</p>');
+				checkstatus(jobid);
+				// when ready, go to success page
+				// window.location.href = '/rqapp/success/?jobid='+jobid;
+		});
+	});
+
+	function checkstatus(jobid){
+		console.log("calling checkstatus");
+		$.get("/rqapp/checkstatus/",{jobid:jobid},function(response){
+			console.log(response);
+			if (response === 'processing'){
+				// wait 5 sec before calling again
+				setTimeout(function(){checkstatus(jobid)},5000);
+			}
+			else {console.log('done');}
+		});
+	}
+});
+
+</script>
+</head>
+
+
+<body>
+	stuff
+	<!-- <button id="mybutton">button</button> -->
+<form id="myform">
+	<input type="text" name="name" id="name">
+	{% csrf_token %}
+	<input type="submit" value="Submit">
+	
+</form>
+</body>

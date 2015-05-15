@@ -6,13 +6,25 @@ from time import sleep
 
 # Create your views here.
 def myview(request):
-	
-	job = django_rq.enqueue(mytask,'andrew')
-	jobid = job.id
+	if request.method == 'POST':
+		name = request.POST['name']
+		job = django_rq.enqueue(mytask,name)
+		return HttpResponse(job.id)
+	else:
+		return render(request,'rqapp/testpage.html')
+
+def checkstatus(request):
+	jobid = request.GET['jobid']
 	q = django_rq.get_queue()
-	print 'fetch 1'
-	print q.fetch_job(jobid).result
-	sleep(5)
-	print 'fetch 2'
-	print q.fetch_job(jobid).result
-	return HttpResponse('hello world')
+	print 'checking for results...'
+	if q.fetch_job(jobid).result:
+
+		return HttpResponse('done')
+	else:
+		return HttpResponse('processing')
+
+def success(request):
+	jobid = request.GET['jobid']
+	q = django_rq.get_queue()
+	result = q.fetch_job(jobid).result
+	return HttpResponse(result)
