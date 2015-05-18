@@ -6,4 +6,6 @@ urlpatterns = patterns('',
 	url(r'^checkstatus/$', views.checkstatus, name='checkstatus'),
 	url(r'^success/$', views.success, name='success'),
 
+	url(r'^uploadfile/$', views.uploadfile, name='uploadfile'),
+
 	)

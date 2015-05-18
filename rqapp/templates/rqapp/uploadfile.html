@@ -1,0 +1,26 @@
+{% load staticfiles %}
+
+<head>
+<link rel="stylesheet" href="{% static 'lib/css/dropzone.css'%}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="{% static 'lib/js/dropzone.js' %}"></script>
+<script>
+Dropzone.options.myform = {
+	paramName:"file",
+	maxFiles:1,
+	init: function() {
+    this.on("success", function(file,response) { alert(response); });
+  }
+}
+</script>
+</head>
+
+<h1> upload file page </h1>
+
+<form action="/rqapp/uploadfile/" method="POST" enctype="multipart/form-data" class='dropzone' id='myform'>
+	{% csrf_token %}
+	<!-- <input type="file" name="file"> -->
+	<!-- <input type="submit" value="Submit"> -->
+	
+
+</form>
